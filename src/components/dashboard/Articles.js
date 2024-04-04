@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import CodeArea from '../CodeArea';
 
 const Articles = () => {
 
-  const { id } = useParams();
+    const { techTopicId } = useParams();
     const [childData, testChildData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try{
                 // Make GET request to the API
-                const response = await fetch(`https://api.techunsolved.com/api/TechArticle/${id}`);
+                const response = await fetch(`https://api.techunsolved.com/api/TechArticle/${techTopicId}`);
                 if(!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -20,13 +23,13 @@ const Articles = () => {
                 testChildData(jsonData);
             }
             catch (error) {
-                console.log('Error Fetching Data: ', error);
+                setError(error);
             }
         };
 
         fetchData();
-    }, [id]);
-  
+    }, [techTopicId]);
+
     return (
       <div>
         <div id="page-content-wrapper">
@@ -34,14 +37,24 @@ const Articles = () => {
                 {childData && (
                   <ul>
                     {childData.map(item => (
-                      <><h1 className="mt-4">{item.articleHeading}</h1>
-                      <li key={item.techArticleId}>
-                        {item.article}
-                        {item.article2}
-                        {item.article3}
-                        {item.article4}
-                        {item.article5}
-                      </li></>
+                      <>
+                        {/* Main Heading */}
+                        <h1 className="heading">{item.main_Heading}</h1>
+                        <h2 className="heading_four">{item.main_subHeading}</h2>
+                         {/* Intro Heading */}
+                        <h3 className='intro_heading'>{item.intro_Heading}</h3>
+                        <h4 className='intro_data'>{item.intro_Data}</h4>
+                        {/* Content Heading */}
+                        <h3 className='intro_heading'>{item.content_Heading}</h3>
+                        <h4 className='intro_data'>{item.content_Data}</h4>
+                        <CodeArea techArticleId={item.techArticleId} />
+                        <div className="para">
+                          <p>{item.example_content}</p>
+                          <p>{item.output_content}</p>
+                          <p>{item.conclusion_data}</p>
+                            <br />
+                        </div>
+                      </>
                     ))}
                   </ul>
                 )}

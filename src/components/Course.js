@@ -10,7 +10,7 @@ const Course = () => {
 
     useEffect(() => {
         // Define an async function to fetch the data
-        const fetcchFirstData = async () => {
+        const fetchFirstData = async () => {
             try {
                 // Make a GET request to the API
                 const response = await fetch(`https://api.techunsolved.com/api/TechModule/initial?initial=${initial}`);
@@ -28,7 +28,7 @@ const Course = () => {
             }
         };
 
-        fetcchFirstData();
+        fetchFirstData();
     }, [initial]);
   
     return (
@@ -77,8 +77,8 @@ const Course = () => {
                                                     <img src={require('../images/.net-development/linq.png')} alt="" />
                                                 ): item.initial === "css" ?(
                                                     <img src={require('../images/frontend-development/css.png')} alt="" />
-                                                ): item.initial === "css3" ? (
-                                                    <img src={require('../images/frontend-development/css3.png')} alt="" />
+                                                ): item.initial === "jquery" ? (
+                                                    <img src={require('../images/frontend-development/jquery.png')} alt="" />
                                                 ): item.initial === "bootstrap" ? (
                                                     <img src={require('../images/frontend-development/bootstrap.png')} alt="" />
                                                 ): item.initial === "tailwind-css" ? (
@@ -93,6 +93,10 @@ const Course = () => {
                                                     <img src={require('../images/javascript-frameworks/angular-js.png')} alt="" />
                                                 ): item.initial === "vuejs" ? (
                                                     <img src={require('../images/javascript-frameworks/vue-js.png')} alt="" />
+                                                ): item.initial === "microsoft-azure" ? (
+                                                    <img src={require('../images/microsoft-cloud/ms-azure.png')} alt="" />
+                                                ): item.initial === "amazon-web-services" ? (
+                                                    <img src={require('../images/amazon-cloud/aws.png')} alt="" />    
                                                 ): (
                                                     <img src={require('../images/pic04.jpg')} alt="" />
                                                 )}
@@ -100,7 +104,7 @@ const Course = () => {
                                                 <h3 className="major">{item.techModulesName}</h3>
                                                 <p>{item.description}</p>
                                                 <Link to={`/dashboard/Course/${item.initial}`}>
-                                                    <a href="#" className="special">Start Tutorials</a>
+                                                    <a className="special">Start Tutorials</a>
                                                 </Link>
                                         </article>
                                     ))}

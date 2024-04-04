@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom' 
 import '../assets/css/main.css'
-import $ from 'jquery'
 
 
 const Home = () => {
@@ -9,10 +8,14 @@ const Home = () => {
     const [firstData, setFirstData] = useState([]);
     const [secondData, setSecondData] = useState([]);
     const [thirdData, setThirdData] = useState([]);
+    const [thirdOneData, setThirdOneData] = useState([]);
+    const [thirdTwoData, setThirdTwoData] = useState([]);
     const { 
             initial = "dotnet-development", 
             initial2 = "front-end-development", 
-            initial3 = "javascript-frameworks" } = useParams();
+            initial3 = "javascript-frameworks",
+            initial4 = "microsoft-cloud-development",
+            initial5 = "amazon-cloud-development" } = useParams();
     
     const { csharp_initial = "C-Sharp",
             dotnetcore_initial = "dotnet-core",
@@ -79,13 +82,55 @@ const Home = () => {
         fetchThirdData();
     }, [initial3]);
 
+    useEffect(() => {
+        const fetchThirdOneData = async () => {
+            try {
+                // Fetch Data
+                const response = await fetch(`https://api.techunsolved.com/api/TechSubCategory/GetBySubCategoryInitial?initial=${initial4}`);
+                if(!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                // Parse the JSON response
+                const data = await response.json();
+                setThirdOneData(data);
+            }
+            catch (error) {
+                console.log('Error Fetching data: ', error);
+            }
+        };
+
+        fetchThirdOneData();
+    }, [initial4]);
+
+    useEffect(() => {
+        const fetchThirdTwoData = async () => {
+            try {
+                // Fetch Data
+                const response = await fetch(`https://api.techunsolved.com/api/TechSubCategory/GetBySubCategoryInitial?initial=${initial5}`);
+                if(!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                // Parse the JSON response
+                const data = await response.json();
+                setThirdTwoData(data);
+            }
+            catch (error) {
+                console.log('Error Fetching data: ', error);
+            }
+        };
+
+        fetchThirdTwoData();
+    }, [initial5]);
+
     return (
 
         <div>
             <div id="page-wrapper">
                 <header id="header" className="alt">
                     <div className="head_logo">
-                        <img src={require('../images/logo.png')} width="100%" height="auto" />
+                        <Link to={`/dashboard/TestPage`}>
+                            <img src={require('../images/logo.png')} width="100%" height="auto" />
+                        </Link>
                     </div>
                 </header>
 
@@ -100,6 +145,7 @@ const Home = () => {
                 </section>
 
                 <section id="wrapper">
+
                     <section id="one" className="wrapper spotlight style1">
                         <div className="inner">
                             <a href="#" className="image">
@@ -112,10 +158,8 @@ const Home = () => {
                                         .Net is developed by Microsoft that enables developers to build and run Windows applications as well as cross-platform applications
                                         include web applications, console applications, IoT, Mobile applications and many more.
                                     </p>
-                                    <Link to={{ pathname: `/Course/${initial}`}}>
-                                        <a href="#" className="special">
-                                            Click here for Course Modules
-                                        </a>
+                                    <Link to={{ pathname: `/Course/${initial}`, state:{name: `/Course/${initial}`}}}>
+                                        <a className='special'>Click here for Course Modules</a>
                                     </Link>
                                 </div>
                             ))}
@@ -129,16 +173,14 @@ const Home = () => {
                             </a>
                             {secondData.map(item => (
                                 <div className="content">
-                                    <h2 classsName="major">{item.techSubcategoryName}</h2>
+                                    <h2 className="major">{item.techSubcategoryName}</h2>
                                     <p>
                                         You can think Front-End as <b>client-side</b> and Backend as <b>server-side</b>. The main responsibility 
                                         of the Front-End Developer is the <b>User Interface</b>. Now a days Many Frameworks are introduce 
                                         in internet world for develop Frontend. Some of the popular framework courses are here.
                                     </p>
-                                    <Link to={{pathname: `/Course/${initial2}`}}>
-                                        <a href="#" className="special">
-                                            Click here for Course Modules
-                                        </a>
+                                    <Link to={{pathname: `/Course/${initial2}`, state:{name: `/Course/${initial2}`}}}>
+                                        <a className='special'>Click here for Course Modules</a>
                                     </Link>
                                 </div>
                             ))}
@@ -152,16 +194,56 @@ const Home = () => {
                             </a>
                             {thirdData.map(item => (
                                 <div className="content">
-                                    <h2 classsName="major">{item.techSubcategoryName}</h2>
+                                    <h2 className="major">{item.techSubcategoryName}</h2>
                                     <p>
                                         JavaScript Frameworks is a very important part of modern web development. Every JavaScript 
-                                        Framework serves a different purpose. Basically JavaScript Framework is collection od pre-written, 
+                                        Framework serves a different purpose. Basically JavaScript Framework is collection of pre-written, 
                                         reusable code that serves as a template or blueprint to help developers build web applications.
                                     </p>
-                                    <Link to={{pathname: `/Course/${initial3}`}}>
-                                        <a href="#" className="special">
-                                            Click here for Course Modules
-                                        </a>
+                                    <Link to={{pathname: `/Course/${initial3}`, state:{name: `/Course/${initial3}`}}}>
+                                        <a className='special'>Click here for Course Modules</a>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section id="three-one" className="wrapper alt spotlight style2">
+                        <div className="inner">
+                            <a href="#" className="image">
+                                <img src={require('../images/azure.png')} alt="" />
+                            </a>
+                            {thirdOneData.map(item => (
+                                <div className="content">
+                                    <h2 className="major">{item.techSubcategoryName}</h2>
+                                    <p>
+                                        Microsoft Azure is the cloud computing platform offered by Microsoft. It provides a wide range of cloud services similar to Amazon 
+                                        Web Services (AWS), enabling businesses to build, deploy, and manage applications and services through Microsoft's global network 
+                                        of data centers.
+                                    </p>
+                                    <Link to={{pathname: `/Course/${initial4}`, state: { name: `/Course/${initial4}`}}}>
+                                        <a className='special'>Click here for Course Modules</a>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section id="three-two" className="wrapper spotlight style3">
+                        <div className="inner">
+                            <a href="#" className="image">
+                                <img src={require('../images/aws.png')} />
+                            </a>
+                            {thirdTwoData.map(item => (
+                                <div className="content">
+                                    <h2 className="major">{item.techSubcategoryName}</h2>
+                                    <p>
+                                        Amazon Web Services (AWS) is a cloud computing platform offered by Amazon. It provides a wide range of services that include 
+                                        computing power, storage options, networking, databases, machine learning, analytics, security, and more. AWS enables businesses 
+                                        to build and deploy applications and services quickly and securely without the need to invest in physical infrastructure.
+                                    </p>
+                                    <Link to={{pathname: `/Course/${initial5}`, state:{name: `/Course/${initial5}`}}}>
+                                        <a className='special'>Click here for Course Modules</a>
                                     </Link>
                                 </div>
                             ))}
@@ -188,7 +270,7 @@ const Home = () => {
                                         dignissim dapibus ultrices.
                                     </p>
                                     <Link to={`/dashboard/Course/${csharp_initial}`}>
-                                        <a href="#" className="special">Start Tutorials</a>
+                                        <a className="special">Start Tutorials</a>
                                     </Link>
                                 </article>
                                 <article>
@@ -201,7 +283,7 @@ const Home = () => {
                                         nulla dignissim dapibus ultrices.
                                     </p>
                                     <Link to={`/dashboard/Course/${dotnetcore_initial}`}>
-                                        <a href="#" className="special">Start Tutorials</a>
+                                        <a className="special">Start Tutorials</a>
                                     </Link>
                                 </article>
                                 <article>
@@ -214,7 +296,7 @@ const Home = () => {
                                         nulla dignissim dapibus ultrices.
                                     </p>
                                     <Link to={`/dashboard/Course/${webapi_initial}`}>
-                                        <a href="#" className="special">Start Tutorials</a>
+                                        <a className="special">Start Tutorials</a>
                                     </Link>
                                 </article>
                                 <article>
@@ -227,7 +309,7 @@ const Home = () => {
                                         nulla dignissim dapibus ultrices.
                                     </p>
                                     <Link to={`/dashboard/Course/${reactjs_initial}`}>
-                                        <a href="#" className="special">Start Tutorials</a>
+                                        <a className="special">Start Tutorials</a>
                                     </Link>
                                 </article>
                             </section>
@@ -258,12 +340,6 @@ const Home = () => {
                     </div>
                 </section>
             </div>
-            {/* <div className='responsive'>
-                <h1>Welcome to Home</h1>
-                <Link to={{ pathname: `/Course/mycourse`, state: {name: '/Course/mycourse'}}}>
-                    <a href="#">Click Here to for Courses Page</a>
-                </Link>
-            </div> */}
         </div>
     )
 }
